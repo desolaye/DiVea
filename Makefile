@@ -1,5 +1,5 @@
 CC=g++ -std=c++17
-FILES=testSFML.cpp
+FILES=main.cpp
 LIBS=-lsfml-graphics -lsfml-window -lsfml-system
 OUT=calc-app
 LIB_O=static-lib.o

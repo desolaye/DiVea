@@ -13,9 +13,9 @@ int main() {
   //   curve.append(sf::Vertex(sf::Vector2f(i + 10, i * i)));
   // }
 
-  std::vector<s21::Button> Buttons;
-  Buttons.push_back(s21::Button());
-  Buttons.push_back(s21::Button());
+  std::vector<dv::Button> Buttons;
+  Buttons.push_back(dv::Button());
+  Buttons.push_back(dv::Button());
   Buttons[0].setString("Ass");
   Buttons[1].setString("Cock");
   Buttons[0].setPosition(100.f, 100.f);
