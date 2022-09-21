@@ -1,10 +1,10 @@
-#ifndef SRC_shape_H_
-#define SRC_shape_H_
+#ifndef BUTTON_H_
+#define BUTTON_H_
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-namespace s21 {
+namespace dv {
 class Button : public sf::Drawable {
  private:
   sf::RectangleShape shape_;
@@ -20,11 +20,6 @@ class Button : public sf::Drawable {
   }
 
   ~Button() {}
-
-  void render(sf::RenderWindow *w) {
-    w->draw(shape_);
-    w->draw(text_);
-  }
 
   virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const {
     target.draw(shape_, states);
@@ -81,6 +76,6 @@ class Button : public sf::Drawable {
   }
 };
 
-}  // namespace s21
+}  // namespace dv
 
-#endif  // SRC_shape_H_
+#endif  // BUTTON_H_
