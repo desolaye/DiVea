@@ -40,7 +40,9 @@ class Grid : public sf::Drawable {
         el.setPosition(currPos.x, currPos.y);
         currPos.x += el.getSize().x;
       }
+
       currPos.y += rw[cols_ - 1].getSize().y;
+      currPos.x = startPos_.x;
     }
   }
 
@@ -53,9 +55,25 @@ class Grid : public sf::Drawable {
   }
 
   void update(sf::Vector2i* MousePos, sf::Event& e) {
+    innerUpdate(MousePos, e);
+  }
+
+  void update(sf::Vector2i* MousePos, sf::Event& e, std::string& s) {
+    innerUpdate(MousePos, e, s);
+  }
+
+  void innerUpdate(sf::Vector2i* MousePos, sf::Event& e) {
     for (Row& rw : gridBox_) {
       for (Element& el : rw) {
         el.update(MousePos, e);
+      }
+    }
+  }
+
+  void innerUpdate(sf::Vector2i* MousePos, sf::Event& e, std::string& s) {
+    for (Row& rw : gridBox_) {
+      for (Element& el : rw) {
+        el.update(MousePos, e, s);
       }
     }
   }
@@ -65,7 +83,10 @@ class Grid : public sf::Drawable {
     startPos_.y = y;
   }
 
-  Element at(int row, int col) const { return gridBox_[row][col]; }
+  int getRows() const { return rows_; }
+  int getCols() const { return cols_; }
+
+  const Element& at(int row, int col) const { return gridBox_[row][col]; }
   Element& at(int row, int col) { return gridBox_[row][col]; }
 };
 

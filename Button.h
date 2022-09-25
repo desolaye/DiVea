@@ -18,7 +18,6 @@ class Button : public sf::Drawable {
     shape_ = sf::RectangleShape({150.f, 100.f});
     shape_.setFillColor(sf::Color(16, 16, 16));
   }
-
   ~Button() {}
 
   virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const {
@@ -35,7 +34,6 @@ class Button : public sf::Drawable {
 
       if (isClicked(e)) {
         isBtnPressed_ = true;
-        std::cout << text_.getString().toAnsiString() << std::endl;
       } else if (e.type != sf::Event::MouseButtonReleased && isBtnPressed_) {
         isBtnPressed_ = false;
       }
@@ -46,6 +44,29 @@ class Button : public sf::Drawable {
       isBtnHovered_ = false;
     }
   }
+
+  void update(sf::Vector2i *MousePos, sf::Event &e, std::string &s) {
+    if (isHovered(*MousePos)) {
+      if (!isBtnHovered_) {
+        shape_.setFillColor(sf::Color(32, 32, 32));
+        isBtnHovered_ = true;
+      }
+
+      if (isClicked(e)) {
+        isBtnPressed_ = true;
+        s += getText();
+      } else if (e.type != sf::Event::MouseButtonReleased && isBtnPressed_) {
+        isBtnPressed_ = false;
+      }
+    }
+
+    if (!isHovered(*MousePos) && isBtnHovered_) {
+      shape_.setFillColor(sf::Color(16, 16, 16));
+      isBtnHovered_ = false;
+    }
+  }
+
+  std::string getText() { return text_.getString().toAnsiString(); }
 
   void setPosition(float x, float y) {
     shape_.setPosition(x, y);
