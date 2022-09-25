@@ -26,10 +26,8 @@ class Button : public sf::Drawable {
     target.draw(text_, states);
   }
 
-  void update(sf::RenderWindow *w, sf::Event &e) {
-    sf::Vector2i MousePos = sf::Mouse::getPosition(*w);
-
-    if (isHovered(MousePos)) {
+  void update(sf::Vector2i *MousePos, sf::Event &e) {
+    if (isHovered(*MousePos)) {
       if (!isBtnHovered_) {
         shape_.setFillColor(sf::Color(32, 32, 32));
         isBtnHovered_ = true;
@@ -43,7 +41,7 @@ class Button : public sf::Drawable {
       }
     }
 
-    if (!isHovered(MousePos) && isBtnHovered_) {
+    if (!isHovered(*MousePos) && isBtnHovered_) {
       shape_.setFillColor(sf::Color(16, 16, 16));
       isBtnHovered_ = false;
     }
@@ -51,6 +49,9 @@ class Button : public sf::Drawable {
 
   void setPosition(float x, float y) {
     shape_.setPosition(x, y);
+    sf::Vector2f pos = shape_.getPosition();
+    std::cout << "Element pos: ";
+    std::cout << pos.x << " " << pos.y << std::endl;
 
     float pos_text_x = (x + shape_.getGlobalBounds().width / 2.f) -
                        (text_.getGlobalBounds().width / 2.f);
@@ -60,6 +61,8 @@ class Button : public sf::Drawable {
 
     text_.setPosition(pos_text_x, pos_text_y);
   }
+
+  sf::Vector2f getSize() const { return shape_.getSize(); }
 
   void setString(std::string s) {
     text_.setString(s);
