@@ -35,9 +35,8 @@ class Grid : public sf::Drawable {
   void init() {
     sf::Vector2f currPos = startPos_;
 
-    for (Row rw : gridBox_) {
-      for (Element el : rw) {
-        std::cout << currPos.x << " " << currPos.y << std::endl;
+    for (Row& rw : gridBox_) {
+      for (Element& el : rw) {
         el.setPosition(currPos.x, currPos.y);
         currPos.x += el.getSize().x;
       }
@@ -45,7 +44,7 @@ class Grid : public sf::Drawable {
     }
   }
 
-  void draw(sf::RenderTarget &target, sf::RenderStates states) const {
+  void draw(sf::RenderTarget& target, sf::RenderStates states) const {
     for (Row rw : gridBox_) {
       for (Element el : rw) {
         target.draw(el, states);
@@ -53,9 +52,9 @@ class Grid : public sf::Drawable {
     }
   }
 
-  void update(sf::Vector2i *MousePos, sf::Event &e) {
-    for (Row rw : gridBox_) {
-      for (Element el : rw) {
+  void update(sf::Vector2i* MousePos, sf::Event& e) {
+    for (Row& rw : gridBox_) {
+      for (Element& el : rw) {
         el.update(MousePos, e);
       }
     }
@@ -66,8 +65,8 @@ class Grid : public sf::Drawable {
     startPos_.y = y;
   }
 
-  Element operator()(int row, int col) const { return gridBox_[row][col]; }
-  Element &operator()(int row, int col) { return gridBox_[row][col]; }
+  Element at(int row, int col) const { return gridBox_[row][col]; }
+  Element& at(int row, int col) { return gridBox_[row][col]; }
 };
 
 }  // namespace dv

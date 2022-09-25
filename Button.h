@@ -50,8 +50,6 @@ class Button : public sf::Drawable {
   void setPosition(float x, float y) {
     shape_.setPosition(x, y);
     sf::Vector2f pos = shape_.getPosition();
-    std::cout << "Element pos: ";
-    std::cout << pos.x << " " << pos.y << std::endl;
 
     float pos_text_x = (x + shape_.getGlobalBounds().width / 2.f) -
                        (text_.getGlobalBounds().width / 2.f);

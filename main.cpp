@@ -16,12 +16,12 @@ int main() {
 
   dv::Grid<dv::Button> gr1(1, 3);
 
-  gr1(0, 0) = dv::Button();
-  gr1(0, 1) = dv::Button();
-  gr1(0, 2) = dv::Button();
-  gr1(0, 0).setString("1");
-  gr1(0, 1).setString("2");
-  gr1(0, 2).setString("3");
+  gr1.at(0, 0) = dv::Button();
+  gr1.at(0, 1) = dv::Button();
+  gr1.at(0, 2) = dv::Button();
+  gr1.at(0, 0).setString("1");
+  gr1.at(0, 1).setString("2");
+  gr1.at(0, 2).setString("3");
   gr1.setPosition(100.f, 0.f);
   gr1.init();
 
