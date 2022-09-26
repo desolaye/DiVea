@@ -22,16 +22,18 @@ int main() {
   displayValue.setString(displayS);
   displayValue.setFont(a);
 
-  dv::Grid<dv::Button> gr1(3, 3);
+  std::string btnChars[16] = {"C", ".", "s", "+", "1", "2", "3", "-", "4", "5", "6", "/", "7", "8", "9", "="};
+
+  dv::Grid<dv::Button> gr1(4, 4);
 
   for (int i = 0; i < gr1.getRows(); i++) {
     for (int j = 0; j < gr1.getCols(); j++) {
       gr1.at(i, j) = dv::Button();
-      gr1.at(i, j).setString(std::to_string(1 + j + 3 * i));
+      gr1.at(i, j).setString(btnChars[j + gr1.getCols() * i]);
     }
   }
 
-  gr1.setPosition(0.f, 100.f);
+  gr1.setPosition(0.f, 200.f);
   gr1.init();
 
   while (window.isOpen()) {
@@ -42,9 +44,11 @@ int main() {
       if (e.type == sf::Event::Closed) window.close();
     }
 
-    window.clear(sf::Color(150, 0, 0));
+    window.clear(sf::Color(90, 0, 0));
+  
     window.draw(displayValue);
     window.draw(gr1);
+  
     gr1.update(&MousePos, e, displayS);
     displayValue.setString(displayS);
 

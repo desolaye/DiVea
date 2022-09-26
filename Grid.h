@@ -13,6 +13,9 @@ class Grid : public sf::Drawable {
  private:
   int rows_;
   int cols_;
+  float gapX_;
+  float gapY_;
+
   sf::Vector2f startPos_;
   std::vector<Row> gridBox_;
 
@@ -23,6 +26,8 @@ class Grid : public sf::Drawable {
   Grid(int rows, int cols) : rows_(rows), cols_(cols) {
     startPos_.x = 0.f;
     startPos_.y = 0.f;
+    gapX_ = 2.f;
+    gapY_ = 2.f;
     gridBox_.resize(rows);
 
     for (int i = 0; i < rows; i++) {
@@ -38,10 +43,10 @@ class Grid : public sf::Drawable {
     for (Row& rw : gridBox_) {
       for (Element& el : rw) {
         el.setPosition(currPos.x, currPos.y);
-        currPos.x += el.getSize().x;
+        currPos.x += el.getSize().x + gapX_;
       }
 
-      currPos.y += rw[cols_ - 1].getSize().y;
+      currPos.y += rw[cols_ - 1].getSize().y + gapY_;
       currPos.x = startPos_.x;
     }
   }
@@ -76,6 +81,10 @@ class Grid : public sf::Drawable {
         el.update(MousePos, e, s);
       }
     }
+  }
+
+  void expand(int x, int y) {
+    
   }
 
   void setPosition(float x, float y) {

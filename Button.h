@@ -54,7 +54,11 @@ class Button : public sf::Drawable {
 
       if (isClicked(e)) {
         isBtnPressed_ = true;
-        s += getText();
+        if (getText() == "C") {
+          s = "";
+        } else {
+          s += getText();
+        }
       } else if (e.type != sf::Event::MouseButtonReleased && isBtnPressed_) {
         isBtnPressed_ = false;
       }
@@ -66,16 +70,24 @@ class Button : public sf::Drawable {
     }
   }
 
+  void setSize(float x, float y) {
+    shape_.setSize(sf::Vector2f(x, y));
+    setTextPosition();
+  }
+
   std::string getText() { return text_.getString().toAnsiString(); }
 
   void setPosition(float x, float y) {
     shape_.setPosition(x, y);
+    setTextPosition();
+  }
+
+  void setTextPosition() {
     sf::Vector2f pos = shape_.getPosition();
 
-    float pos_text_x = (x + shape_.getGlobalBounds().width / 2.f) -
+    float pos_text_x = (pos.x + shape_.getGlobalBounds().width / 2.f) -
                        (text_.getGlobalBounds().width / 2.f);
-
-    float pos_text_y = (y + shape_.getGlobalBounds().height / 2.5f) -
+    float pos_text_y = (pos.y + shape_.getGlobalBounds().height / 2.5f) -
                        (text_.getGlobalBounds().height / 2.f);
 
     text_.setPosition(pos_text_x, pos_text_y);
