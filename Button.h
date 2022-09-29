@@ -15,7 +15,7 @@ class Button : public sf::Drawable {
 
  public:
   Button() {
-    shape_ = sf::RectangleShape({150.f, 100.f});
+    shape_ = sf::RectangleShape({75.f, 75.f});
     shape_.setFillColor(sf::Color(16, 16, 16));
   }
   ~Button() {}
