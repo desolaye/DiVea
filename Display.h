@@ -25,7 +25,11 @@ class Display : public sf::Drawable, public sf::Transformable {
     reset();
   }
 
-  void addValue(std::string value);
+  void addValue(std::string s) {
+    strText_.append(s);
+    text_.setString(strText_);
+    text_.move(sf::Vector2f(-12.f, 0.f));
+  };
 
   void reset() {
     strText_ = "0";
