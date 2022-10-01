@@ -30,7 +30,7 @@ class CalcApp {
 
  public:
   CalcApp()
-      : window_(sf::VideoMode(600, 800), "DiVea", sf::Style::Close),
+      : window_(sf::VideoMode(1200, 500), "DiVea", sf::Style::Close),
         calculator_(&window_){};
   ~CalcApp(){};
 

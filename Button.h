@@ -6,22 +6,22 @@
 
 namespace dv {
 
-enum class T { Number, Operand, X, AC, Function, Comma };
+enum class T { Number, Operand, X, AC, Function, Comma, Equal, Unknown };
+
 class Button : public sf::Drawable {
  private:
   sf::RectangleShape shape_;
   sf::Text text_;
   sf::Font font_;
   T type_;
-  bool isBtnPressed_ = false;
-  bool isBtnHovered_ = false;
 
  public:
-  Button(T type, std::string s) {
+  Button() : Button(T::Unknown, "") {}
+  Button(T type, std::string s) : type_(type) {
     shape_.setSize(sf::Vector2f(75.f, 75.f));
     shape_.setFillColor(sf::Color(16, 16, 16));
 
-    font_.loadFromFile("Raleway.ttf");
+    font_.loadFromFile("RobotoMono.ttf");
     text_.setFont(font_);
     text_.setString(s);
     text_.setFillColor(sf::Color::White);
@@ -37,53 +37,6 @@ class Button : public sf::Drawable {
     target.draw(text_, states);
   }
 
-  void update(sf::Vector2i *MousePos, sf::Event &e) {
-    if (isHovered(*MousePos)) {
-      if (!isBtnHovered_) {
-        shape_.setFillColor(sf::Color(32, 32, 32));
-        isBtnHovered_ = true;
-      }
-
-      if (isClicked(e)) {
-        isBtnPressed_ = true;
-      } else if (e.type != sf::Event::MouseButtonReleased && isBtnPressed_) {
-        isBtnPressed_ = false;
-      }
-    }
-
-    if (!isHovered(*MousePos) && isBtnHovered_) {
-      shape_.setFillColor(sf::Color(16, 16, 16));
-      isBtnHovered_ = false;
-    }
-  }
-
-  void update(sf::Vector2i *MousePos, sf::Event &e, std::string &s) {
-    if (isHovered(*MousePos)) {
-      if (!isBtnHovered_) {
-        shape_.setFillColor(sf::Color(32, 32, 32));
-        isBtnHovered_ = true;
-      }
-
-      if (isClicked(e)) {
-        isBtnPressed_ = true;
-      } else if (e.type != sf::Event::MouseButtonReleased && isBtnPressed_) {
-        isBtnPressed_ = false;
-      }
-    }
-
-    if (!isHovered(*MousePos) && isBtnHovered_) {
-      shape_.setFillColor(sf::Color(16, 16, 16));
-      isBtnHovered_ = false;
-    }
-  }
-
-  sf::FloatRect getRect() const {
-    sf::FloatRect rect = shape_.getGlobalBounds();
-    rect.top = sf::Mouse::getPosition().y;
-    rect.left = sf::Mouse::getPosition().x;
-    return rect;
-  }
-
   void setSize(float x, float y) {
     shape_.setSize(sf::Vector2f(x, y));
     setTextPosition();
@@ -94,10 +47,20 @@ class Button : public sf::Drawable {
     setTextPosition();
   }
 
+  void setHover() { shape_.setFillColor(sf::Color(132, 132, 132)); }
+  void setIdle() { shape_.setFillColor(sf::Color(52, 52, 62)); }
+
   void setPosition(sf::Vector2f v) {
     shape_.setPosition(v);
     setTextPosition();
   }
+
+  void setText(std::string s) {
+    text_.setString(s);
+    setTextPosition();
+  }
+
+  void setType(T type) { type_ = type; }
 
   void setTextPosition() {
     sf::Vector2f pos = shape_.getPosition();
@@ -110,21 +73,17 @@ class Button : public sf::Drawable {
     text_.setPosition(pos_text_x, pos_text_y);
   }
 
-  std::string getText() const { return text_.getString().toAnsiString(); }
-
-  void setHover() { shape_.setFillColor(sf::Color(132, 132, 132)); }
-  void setIdle() { shape_.setFillColor(sf::Color(32, 32, 32)); }
-  T getType() const { return type_; }
-
-  sf::Vector2f getSize() const { return shape_.getSize(); }
+  void setScale(float x, float y) { shape_.setScale(x, y); }
 
   bool isHovered(sf::Vector2i MousePos) const {
     return shape_.getGlobalBounds().contains(MousePos.x, MousePos.y);
   }
 
-  bool isClicked(sf::Event e) const {
-    return e.type == sf::Event::MouseButtonReleased && !isBtnPressed_;
-  }
+  std::string getText() const { return text_.getString().toAnsiString(); }
+
+  T getType() const { return type_; }
+
+  sf::Vector2f getSize() const { return shape_.getSize(); }
 };
 
 }  // namespace dv

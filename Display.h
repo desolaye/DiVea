@@ -8,10 +8,10 @@ namespace dv {
 class Display : public sf::Drawable, public sf::Transformable {
  public:
   Display() {
-    shape_.setSize(sf::Vector2f(600.f, 60.f));
+    shape_.setSize(sf::Vector2f(1200.f, 60.f));
     shape_.setFillColor(sf::Color(46, 46, 56));
 
-    font_.loadFromFile("Raleway.ttf");
+    font_.loadFromFile("RobotoMono.ttf");
     text_.setFont(font_);
     text_.setFillColor(sf::Color::White);
     text_.setCharacterSize(24);
@@ -20,7 +20,7 @@ class Display : public sf::Drawable, public sf::Transformable {
     arrow_.setFillColor(sf::Color::White);
     arrow_.setCharacterSize(40);
     arrow_.setString("<");
-    arrow_.setPosition(sf::Vector2f(565.f, 2.f));
+    arrow_.setPosition(sf::Vector2f(1160.f, 2.f));
   
     reset();
   }
@@ -28,13 +28,18 @@ class Display : public sf::Drawable, public sf::Transformable {
   void addValue(std::string s) {
     strText_.append(s);
     text_.setString(strText_);
-    text_.move(sf::Vector2f(-12.f, 0.f));
-  };
+    text_.move(sf::Vector2f(-14.f, 0.f));
+  }
+
+  void setValue(std::string s) {
+    strText_ = s;
+    text_.setString(strText_);
+  }
 
   void reset() {
     strText_ = "0";
     text_.setString(strText_);
-    text_.setPosition(sf::Vector2f(500.f, 15.f));
+    text_.setPosition(sf::Vector2f(1120.f, 15.f));
   }
 
   void draw(sf::RenderTarget& target, sf::RenderStates states) const {

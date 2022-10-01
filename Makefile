@@ -1,6 +1,7 @@
 CC=g++ -std=c++17
 FILES=main.cpp
 LIBS=-lsfml-graphics -lsfml-window -lsfml-system
+GDB=-g3 -ggdb
 OUT=calc-app
 LIB_O=static-lib.o
 
