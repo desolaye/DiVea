@@ -109,6 +109,10 @@ class Calculator : public sf::Drawable {
           handleXInput_(lastCh);
           break;
 
+        case (T::Function):
+          handleFuncInput_(lastCh);
+          break;
+
         case (T::AC):
           display_.reset();
           isCommed_ = false;
@@ -226,7 +230,7 @@ class Calculator : public sf::Drawable {
       display_.addValue("0");
     }
 
-    if (lastCh == ')') {
+    if (lastCh == ')' || lastCh == 'X') {
       display_.addValue("*");
       display_.addValue("0");
     }
@@ -263,7 +267,7 @@ class Calculator : public sf::Drawable {
 
     if (display_.getText() == "0") {
       display_.setValue(selectedBtn_->getText());
-    } else if (std::isdigit(lastCh) || lastCh == ')') {
+    } else if (std::isdigit(lastCh) || lastCh == ')' || lastCh == 'X') {
       display_.addValue("*");
       display_.addValue(selectedBtn_->getText());
 
@@ -280,7 +284,7 @@ class Calculator : public sf::Drawable {
     isOperandLast_ = false;
 
     if (display_.getText() == "0") {
-    } else if (std::isdigit(lastCh) || lastCh == ')') {
+    } else if (std::isdigit(lastCh) || lastCh == ')' || lastCh == 'X') {
       display_.addValue(selectedBtn_->getText());
     } else if (lastCh == '(') {
       display_.addValue("0");
@@ -304,10 +308,31 @@ class Calculator : public sf::Drawable {
     } else {
       display_.addValue(selectedBtn_->getText());
     }
-      isCommed_ = false;
 
+    isCommed_ = false;
+    isOperandLast_ = false;
   }
 
+  void handleFuncInput_(char lastCh) {
+    if (display_.getText() == "0") {
+      display_.setValue(selectedBtn_->getText());
+    } else if (std::isdigit(lastCh) || lastCh == ')' || lastCh == 'X') {
+      display_.addValue("*");
+      display_.addValue(selectedBtn_->getText());
+
+    } else if (lastCh == '.') {
+      display_.replaceLast("*");
+      display_.addValue(selectedBtn_->getText());
+
+    } else {
+      display_.addValue(selectedBtn_->getText());
+    }
+
+    display_.addValue("(");
+
+    isCommed_ = false;
+    isOperandLast_ = false;
+  }
 };
 }  // namespace dv
 

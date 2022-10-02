@@ -31,13 +31,18 @@ class Display : public sf::Drawable, public sf::Transformable {
     } else {
       strText_.append(s);
       text_.setString(strText_);
-      text_.move(sf::Vector2f(-14.f, 0.f));
+      for (int i = 0; i < s.length(); ++i) {
+        text_.move(sf::Vector2f(-14.f, 0.f));
+      }
     }
   }
 
   void setValue(std::string s) {
     strText_ = s;
     text_.setString(strText_);
+    for (int i = 0; i < s.length() - 1; ++i) {
+      text_.move(sf::Vector2f(-14.f, 0.f));
+    }
   }
 
   void replaceLast(std::string s) {
