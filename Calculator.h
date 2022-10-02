@@ -124,14 +124,18 @@ class Calculator : public sf::Drawable {
             btn.setType(T::AC);
             btn.setSize(btn.getSize().x * 2.f + gap.x, btn.getSize().y);
 
+          } else if (btn.getText() == ".") {
+            btn.setType(T::Comma);
           } else if (btn.getText() == "0") {
             btn.setType(T::Number);
             btn.setSize(btn.getSize().x * 2.f + gap.x, btn.getSize().y);
 
+          } else if (std::isdigit(btn.getText()[0])) {
+            btn.setType(T::Number);
           } else if (btn.getText() == "=") {
             btn.setType(T::Equal);
           } else {
-            btn.setType(T::Number);
+            btn.setType(T::Operand);
           }
 
           btn.setPosition(currPos);

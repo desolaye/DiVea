@@ -6,7 +6,17 @@
 
 namespace dv {
 
-enum class T { Number, Operand, X, AC, Function, Comma, Equal, Unknown };
+enum class T {
+  Number,
+  Operand,
+  X,
+  AC,
+  Function,
+  Comma,
+  Equal,
+  Bracets,
+  Unknown
+};
 
 class Button : public sf::Drawable {
  private:
@@ -19,7 +29,7 @@ class Button : public sf::Drawable {
   Button() : Button(T::Unknown, "") {}
   Button(T type, std::string s) : type_(type) {
     shape_.setSize(sf::Vector2f(75.f, 75.f));
-    shape_.setFillColor(sf::Color(16, 16, 16));
+    shape_.setFillColor(sf::Color(52, 52, 62));
 
     font_.loadFromFile("RobotoMono.ttf");
     text_.setFont(font_);
