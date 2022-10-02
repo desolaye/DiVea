@@ -14,7 +14,8 @@ enum class T {
   Function,
   Comma,
   Equal,
-  Bracets,
+  OBracets,
+  CBracets,
   Unknown
 };
 
@@ -22,6 +23,8 @@ class Button : public sf::Drawable {
  private:
   sf::RectangleShape shape_;
   sf::Text text_;
+  sf::Color idleColor_;
+  sf::Color hoverColor_;
   sf::Font font_;
   T type_;
 
@@ -57,8 +60,8 @@ class Button : public sf::Drawable {
     setTextPosition();
   }
 
-  void setHover() { shape_.setFillColor(sf::Color(132, 132, 132)); }
-  void setIdle() { shape_.setFillColor(sf::Color(52, 52, 62)); }
+  void setHover() { shape_.setFillColor(hoverColor_); }
+  void setIdle() { shape_.setFillColor(idleColor_); }
 
   void setPosition(sf::Vector2f v) {
     shape_.setPosition(v);
@@ -70,7 +73,21 @@ class Button : public sf::Drawable {
     setTextPosition();
   }
 
-  void setType(T type) { type_ = type; }
+  void setType(T type) {
+    type_ = type;
+    setColor();
+  }
+
+  void setColor() {
+    if (type_ == T::Operand || type_ == T::AC || type_ == T::Equal ||
+        type_ == T::Function) {
+      idleColor_ = sf::Color(250, 140, 15);
+      hoverColor_ = sf::Color(230, 120, 4);
+    } else {
+      idleColor_ = sf::Color(52, 52, 62);
+      hoverColor_ = sf::Color(62, 62, 72);
+    }
+  }
 
   void setTextPosition() {
     sf::Vector2f pos = shape_.getPosition();

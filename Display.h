@@ -15,24 +15,34 @@ class Display : public sf::Drawable, public sf::Transformable {
     text_.setFont(font_);
     text_.setFillColor(sf::Color::White);
     text_.setCharacterSize(24);
-    
+
     arrow_.setFont(font_);
     arrow_.setFillColor(sf::Color::White);
     arrow_.setCharacterSize(40);
     arrow_.setString("<");
     arrow_.setPosition(sf::Vector2f(1160.f, 2.f));
-  
+
     reset();
   }
 
   void addValue(std::string s) {
-    strText_.append(s);
-    text_.setString(strText_);
-    text_.move(sf::Vector2f(-14.f, 0.f));
+    if (strText_ == "0" && std::isdigit(s[0])) {
+      setValue(s);
+    } else {
+      strText_.append(s);
+      text_.setString(strText_);
+      text_.move(sf::Vector2f(-14.f, 0.f));
+    }
   }
 
   void setValue(std::string s) {
     strText_ = s;
+    text_.setString(strText_);
+  }
+
+  void replaceLast(std::string s) {
+    strText_ = strText_.substr(0, strText_.size() - 1);
+    strText_.append(s);
     text_.setString(strText_);
   }
 
@@ -48,6 +58,10 @@ class Display : public sf::Drawable, public sf::Transformable {
     target.draw(text_, states);
     target.draw(arrow_, states);
   }
+
+  char getLastChar() { return strText_.back(); }
+
+  std::string getText() { return strText_; }
 
  private:
   sf::RectangleShape shape_;
