@@ -6,6 +6,13 @@
 
 namespace dv {
 class Display : public sf::Drawable, public sf::Transformable {
+ private:
+  sf::RectangleShape shape_;
+  std::string strText_;
+  sf::Text text_;
+  sf::Text arrow_;
+  sf::Font font_;
+
  public:
   Display() {
     shape_.setSize(sf::Vector2f(1200.f, 60.f));
@@ -67,13 +74,6 @@ class Display : public sf::Drawable, public sf::Transformable {
   char getLastChar() { return strText_.back(); }
 
   std::string getText() { return strText_; }
-
- private:
-  sf::RectangleShape shape_;
-  std::string strText_;
-  sf::Text text_;
-  sf::Text arrow_;
-  sf::Font font_;
 };
 
 }  // namespace dv

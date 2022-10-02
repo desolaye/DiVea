@@ -8,6 +8,7 @@
 
 #include "Button.h"
 #include "Display.h"
+#include "Input.h"
 
 namespace dv {
 
@@ -15,11 +16,15 @@ class Calculator : public sf::Drawable {
  private:
   sf::RenderWindow* window_;
   Display display_;
+  Input inputX_;
   Button* selectedBtn_;
   std::vector<std::vector<Button>> standartBtns_;
   std::vector<std::vector<Button>> extendedBtns_;
+
   bool isCommed_ = false;
   bool isOperandLast_ = false;
+  bool isInputHovered_ = false;
+  bool isXCommed_ = false;
 
  public:
   Calculator(sf::RenderWindow* window) : window_(window) {
@@ -44,10 +49,13 @@ class Calculator : public sf::Drawable {
         target.draw(btn);
       }
     }
+
+    target.draw(inputX_);
   }
 
   void update() {
     selectedBtn_ = nullptr;
+    isInputHovered_ = false;
     sf::Vector2i mousePos = sf::Mouse::getPosition(*window_);
 
     for (auto& row : standartBtns_) {
@@ -71,11 +79,30 @@ class Calculator : public sf::Drawable {
         }
       }
     }
+
+    if (inputX_.isHovered(mousePos)) {
+      inputX_.setHover();
+      isInputHovered_ = true;
+    } else {
+      inputX_.setIdle();
+    }
   }
 
   void handleEvents(const sf::Event& e) {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
       handleButtonClick();
+    }
+
+    if (e.type == sf::Event::TextEntered && isInputHovered_) {
+      if (e.text.unicode > 47 && e.text.unicode < 58) {
+        inputX_.appendStr(e.text.unicode);
+      } else if (e.text.unicode == 8) {
+        if (inputX_.popStr() == '.') isXCommed_ = !isXCommed_;
+      } else if (e.text.unicode == 46 && !isXCommed_ && inputX_.appenable()) {
+        isXCommed_ = !isXCommed_;
+        if (inputX_.getStr() == "") inputX_.appendStr('0');
+        inputX_.appendStr('.');
+      }
     }
   }
 

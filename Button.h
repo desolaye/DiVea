@@ -5,7 +5,7 @@
 #include <iostream>
 
 namespace dv {
-
+  
 enum class T {
   Number,
   Operand,
