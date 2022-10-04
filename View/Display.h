@@ -45,9 +45,10 @@ class Display : public sf::Drawable, public sf::Transformable {
   }
 
   void setValue(std::string s) {
+    reset();
     strText_ = s;
     text_.setString(strText_);
-    for (int i = 0; i < s.length() - 1; ++i) {
+    for (int i = 0; i < strText_.length() - 1; ++i) {
       text_.move(sf::Vector2f(-14.f, 0.f));
     }
   }

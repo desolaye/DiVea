@@ -13,9 +13,8 @@ class Input : public sf::Drawable {
   sf::Text placeholder_;
   sf::Text preText_;
   std::string strText_ = "";
-  std::string strBefore_;
+  std::string strBefore_ = "";
   sf::Font font_;
-  int maxSize = 18;
 
  public:
   Input() {
@@ -47,17 +46,10 @@ class Input : public sf::Drawable {
 
   ~Input() {}
 
-  void setBefore(std::string s) {
-    strBefore_ = s;
-    preText_.setString(strBefore_);
-  }
-
-  void appendStr(char ch) {
-    if (strText_.length() < maxSize) {
-      if (ch == '.') maxSize++;
-      strText_.push_back(ch);
-      text_.setString(strText_);
-    }
+  void setBefore(std::string s) { preText_.setString(s); }
+  void setText(std::string s) {
+    strText_ = s;
+    text_.setString(strText_);
   }
 
   void setHover() { shape_.setFillColor(sf::Color(36, 36, 48)); }
@@ -74,24 +66,9 @@ class Input : public sf::Drawable {
     }
   }
 
-  char popStr() {
-    char ch = '0';
-
-    if (strText_.length() > 0) {
-      ch = strText_.back();
-      if (ch == '.') maxSize--;
-      strText_.pop_back();
-      text_.setString(strText_);
-    }
-
-    return ch;
-  }
-
   bool isHovered(sf::Vector2i MousePos) const {
     return shape_.getGlobalBounds().contains(MousePos.x, MousePos.y);
   }
-
-  bool appenable() { return strText_.length() < maxSize; }
 
   std::string getStr() { return strText_; }
 };
