@@ -6,6 +6,8 @@
 #include <string>
 
 #include "../View/Button.h"
+#include "Compute.h"
+#include "Parser.h"
 
 namespace dv {
 
@@ -20,9 +22,18 @@ class Model {
   std::string displayValue_ = "0";
   std::string strToAdd_ = "";
 
+  Parser* parser_ = nullptr;
+  Compute* compute_ = nullptr;
+
  public:
-  Model() {}
-  ~Model() {}
+  Model() {
+    parser_ = new Parser();
+    compute_ = new Compute();
+  }
+  ~Model() {
+    delete parser_;
+    delete compute_;
+  }
 
   void handleButtonClick(T type, std::string& s) {
     char lastCh = displayValue_.back();
@@ -55,6 +66,12 @@ class Model {
 
       case (T::Function):
         handleFuncInput_(lastCh);
+        break;
+
+      case (T::Equal):
+        parser_->parse(displayValue_);
+        compute_->setStack(parser_->getStack());
+        compute_->doCompute();
         break;
 
       case (T::AC):
@@ -92,9 +109,12 @@ class Model {
 
  private:
   void handleNumInput_(char lastCh) {
+    if (displayValue_ == "0") displayValue_.pop_back();
+
     if (lastCh == ')' || lastCh == 'X') {
       displayValue_.append("*");
     }
+
     displayValue_.append(strToAdd_);
     isOperandLast_ = false;
   }
@@ -121,9 +141,14 @@ class Model {
   }
 
   void handleOperandInput_(char lastCh) {
-    if (lastCh == '(') {
+    if (displayValue_ == "-") {
+      displayValue_.pop_back();
       displayValue_.append("0");
+      isOperandLast_ = false;
     }
+
+    if (displayValue_ == "0" && strToAdd_ == "-") displayValue_.pop_back();
+    if (lastCh == '(') displayValue_.append("0");
 
     if (lastCh == '.') {
       replaceLast_(strToAdd_);
